@@ -2,10 +2,11 @@ class User < ActiveRecord::Base
  #Rails API entry on callbacks is used to force downcase
  #before saving the email.
  
- before_save { self.email = email.downcase }
- 
+ # before_save { self.email = email.downcase }
+ before_save { email.downcase! }
+
  #Regex for email validation
- VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+ VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
  validates(:email, presence: true, format: { with: VALID_EMAIL_REGEX },
             uniqueness: { case_sensitive: false })
 
