@@ -20,4 +20,21 @@ class User < ActiveRecord::Base
  #and when password doesn't match confirmation
  has_secure_password
 
+ # Use self.remember_token to save in database and
+ # not create local variable
+ # use token.to_s to avoid nil produce by a browser
+ before_create :create_remember_token
+
+ def User.new_remember_token
+  SecureRandom.urlsafe_base64
+ end
+
+ def User.encrypt(token)
+  Digest::SHA1.hexdigest(token.to_s)
+ end
+
+ private
+  def create_remember_token
+   self.remember_token = User.encrypt(User.new_remember_token)
+  end
 end

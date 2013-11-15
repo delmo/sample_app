@@ -10,6 +10,10 @@ describe User do
  it { should respond_to(:password) }
  it { should respond_to(:password_confirmation) }
  it { should respond_to(:authenticate) }
+ # session[:remember_token] is use in cookie
+ # you need to migrate the remember_token
+ # rails generate migration add_remember_token_to_users
+ it { should respond_to(:remember_token) }
 
  it { should be_valid }
 
@@ -103,4 +107,10 @@ describe User do
   end
  end
  
+ describe "remember token" do
+  before { @user.save }
+  its(:remember_token) { should_not be_blank }
+  # the above is equivalent to
+  # it { expect(@user.remeber_token).not_to be_blank }
+ end
 end
