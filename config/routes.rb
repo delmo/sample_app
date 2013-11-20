@@ -2,6 +2,7 @@ SampleApp::Application.routes.draw do
   # get "users/new", not needed this as "resources :users" generates all RESTful
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
+  resources :microposts, only: [:create, :destroy]
   root 'static_pages#home'
   match '/signup', to: 'users#new', via: 'get'
   match '/signin', to: 'sessions#new', via: 'get'

@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+ has_many :microposts, dependent: :destroy
  #Rails API entry on callbacks is used to force downcase
  #before saving the email.
  
@@ -31,6 +32,12 @@ class User < ActiveRecord::Base
 
  def User.encrypt(token)
   Digest::SHA1.hexdigest(token.to_s)
+ end
+
+ def feed
+  # This is preliminary. See "Following users"
+  # for the full implementation
+  Micropost.where("user_id = ?", id)
  end
 
  private
