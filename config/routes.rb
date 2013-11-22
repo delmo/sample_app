@@ -1,8 +1,16 @@
 SampleApp::Application.routes.draw do
   # get "users/new", not needed this as "resources :users" generates all RESTful
-  resources :users
+  # resources :users, should be replace below
+  # below code will create custom link
+  # /users/1/following and /users/1/followers
+  resources :users do
+   member do
+    get :following, :followers
+   end
+  end
   resources :sessions, only: [:new, :create, :destroy]
   resources :microposts, only: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy]
   root 'static_pages#home'
   match '/signup', to: 'users#new', via: 'get'
   match '/signin', to: 'sessions#new', via: 'get'
